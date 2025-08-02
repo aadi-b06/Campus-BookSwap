@@ -1,0 +1,124 @@
+/* Messaging System Styles */
+
+/* WhatsApp Button */
+.whatsapp-btn {
+    margin-left: auto;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+}
+
+.whatsapp-btn i {
+    font-size: 1.2rem;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 30px;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #bdc3c7;
+}
+
+.empty-state h3 {
+    margin: 0 0 10px;
+    color: #2c3e50;
+}
+
+.empty-state p {
+    margin: 0;
+    max-width: 300px;
+}
+
+/* Unread Indicator */
+.unread-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #3498db;
+    border-radius: 50%;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Conversation Item Hover */
+.conversation-item {
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.conversation-item:hover {
+    background-color: #f5f7fa;
+}
+
+/* Message Time Format */
+.message-time {
+    font-size: 0.7rem;
+    color: #95a5a6;
+    margin-top: 5px;
+    text-align: right;
+}
+
+/* Improve Chat Area Layout */
+.chat-area {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .messages-container {
+        flex-direction: column;
+    }
+    
+    .conversations-list {
+        width: 100%;
+        max-width: none;
+        border-right: none;
+        border-bottom: 1px solid #ecf0f1;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .chat-area {
+        width: 100%;
+    }
+    
+    .whatsapp-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .whatsapp-btn i {
+        font-size: 1rem;
+    }
+}

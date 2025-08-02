@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Books - Campus BookSwap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to browse page */
+        .browse-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .filters-sidebar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            align-self: start;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .filters-sidebar h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .price-range input {
+            width: 45%;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .filter-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .apply-btn {
+            background-color: #3498db;
+            color: white;
+            flex: 2;
+        }
+        
+        .reset-btn {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            flex: 1;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .book-actions .btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 0.9rem;
+        }
+        
+        .message-seller-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .search-bar {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            padding-left: 45px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        .books-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .books-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+        
+        .sort-options select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #2c3e50;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .no-results h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .no-results p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 10px;
+        }
+        
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            background-color: white;
+            color: #2c3e50;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .pagination a:hover, .pagination a.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .browse-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-sidebar {
+                position: static;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Campus BookSwap</h1>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html" class="active">Browse Books</a>
+                <a href="sell.html">Sell/Swap</a>
+                <a href="dashboard.html">My Dashboard</a>
+                <a href="about.html">About</a>
+                <a href="login.html" class="login-btn">Login/Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="browse-container">
+            <!-- Filters Sidebar -->
+            <aside class="filters-sidebar">
+                <h3>Filter Books</h3>
+                <form class="filter-form">
+                    <div class="filter-group">
+                        <label for="department">Department</label>
+                        <select id="department">
+                            <option value="">All Departments</option>
+                            <option value="computer-science">Computer Science</option>
+                            <option value="business">Business</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="biology">Biology</option>
+                            <option value="psychology">Psychology</option>
+                            <option value="literature">Literature</option>
+                            <option value="history">History</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="semester">Semester</label>
+                        <select id="semester">
+                            <option value="">All Semesters</option>
+                            <option value="fall-2023">Fall 2023</option>
+                            <option value="spring-2024">Spring 2024</option>
+                            <option value="summer-2024">Summer 2024</option>
+                            <option value="fall-2024">Fall 2024</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="condition">Book Condition</label>
+                        <select id="condition">
+                            <option value="">Any Condition</option>
+                            <option value="new">New</option>
+                            <option value="like-new">Like New</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="format">Format</label>
+                        <select id="format">
+                            <option value="">All Formats</option>
+                            <option value="physical">Physical</option>
+                            <option value="digital">Digital</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <div class="price-range">
+                            <input type="number" id="price-min" placeholder="Min" min="0">
+                            <span>to</span>
+                            <input type="number" id="price-max" placeholder="Max" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="listing-type">Listing Type</label>
+                        <select id="listing-type">
+                            <option value="">All Listings</option>
+                            <option value="sale">For Sale</option>
+                            <option value="swap">For Swap</option>
+                            <option value="both">Sale or Swap</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button type="submit" class="apply-btn">Apply Filters</button>
+                        <button type="button" class="reset-btn">Reset</button>
+                    </div>
+                </form>
+            </aside>
+            
+            <!-- Books Grid -->
+            <div class="books-content">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search by title, author, course code, or ISBN">
+                </div>
+                
+                <div class="books-header">
+                    <h2>Available Books</h2>
+                    <div class="sort-options">
+                        <select id="sort-by">
+                            <option value="newest">Newest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="title">Title: A to Z</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="books-grid">
+                    <!-- Book cards will be dynamically loaded here by browse.js -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#"><i class="fas fa-chevron-left"></i></a>
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Campus BookSwap</h3>
+                <p>A platform for university students to buy, sell, and swap textbooks with peers on campus.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell/Swap</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@campusbookswap.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="js/browse.js"></script>
+    <script src="js/book-messaging.js"></script>
+</body>
+</html>

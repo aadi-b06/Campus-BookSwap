@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details - BookSwap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/features.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Additional styles specific to the book details page */
+        .book-details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .book-images {
+            position: relative;
+        }
+
+        .book-main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        .book-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .book-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .book-thumbnail.active {
+            border-color: #4CAF50;
+        }
+
+        .book-thumbnail:hover:not(.active) {
+            opacity: 0.8;
+        }
+
+        .book-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .book-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-meta-label {
+            font-size: 0.9rem;
+            color: #757575;
+        }
+
+        .book-meta-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .book-price-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4CAF50;
+            margin-right: 1rem;
+        }
+
+        .book-original-price {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: #757575;
+        }
+
+        .book-listing-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-listing-type.sale {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .book-listing-type.swap {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .book-listing-type.both {
+            background-color: #fff8e1;
+            color: #f57f17;
+        }
+
+        .book-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-action-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-buy {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .btn-buy:hover {
+            background-color: #388E3C;
+        }
+
+        .btn-message {
+            background-color: white;
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+
+        .btn-message:hover {
+            background-color: #f1f8e9;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 1.5rem;
+        }
+
+        .seller-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .seller-details {
+            flex: 1;
+        }
+
+        .seller-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .seller-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .seller-rating .stars {
+            color: #FFC107;
+        }
+
+        .seller-rating .count {
+            color: #757575;
+            font-size: 0.9rem;
+        }
+
+        .seller-department {
+            font-size: 0.9rem;
+            color: #757575;
+        }
+
+        .book-tabs {
+            margin-top: 3rem;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #4CAF50;
+            border-bottom-color: #4CAF50;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .similar-books {
+            margin-top: 3rem;
+        }
+
+        .similar-books-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .payment-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .payment-close {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #757575;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #4CAF50;
+            background-color: #f1f8e9;
+        }
+
+        .payment-method.active {
+            border-color: #4CAF50;
+            background-color: #f1f8e9;
+        }
+
+        .payment-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-method-name {
+            font-weight: 500;
+        }
+
+        .payment-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-summary {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-summary-item.total {
+            font-weight: 600;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .message-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .message-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .message-close {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #757575;
+        }
+
+        .message-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        @media (max-width: 768px) {
+            .book-details-container {
+                grid-template-columns: 1fr;
+            }
+
+            .similar-books-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .book-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">BookSwap</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="sell.html">Sell</a></li>
+                    <li><a href="campus-map.html">Campus Map</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-secondary">Login</a>
+                <div id="notification-icon" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                    <div class="notification-dropdown">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <a href="#" class="mark-all-read">Mark all as read</a>
+                        </div>
+                        <div class="notification-list">
+                            <!-- Notifications will be inserted here by JavaScript -->
+                        </div>
+                        <div class="notification-footer">
+                            <a href="notifications.html">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> &gt; 
+                <a href="browse.html">Browse</a> &gt; 
+                <span>Introduction to Computer Science</span>
+            </div>
+
+            <!-- Book Details Container -->
+            <div class="book-details-container">
+                <!-- Book Images -->
+                <div class="book-images">
+                    <img src="https://via.placeholder.com/500x650?text=Computer+Science+Textbook" alt="Introduction to Computer Science" class="book-main-image" id="main-image">
+                    <div class="book-thumbnails">
+                        <img src="https://via.placeholder.com/500x650?text=Computer+Science+Textbook" alt="Book thumbnail 1" class="book-thumbnail active" onclick="changeMainImage(this.src)">
+                        <img src="https://via.placeholder.com/500x650?text=Book+Cover" alt="Book thumbnail 2" class="book-thumbnail" onclick="changeMainImage(this.src)">
+                        <img src="https://via.placeholder.com/500x650?text=Book+Back" alt="Book thumbnail 3" class="book-thumbnail" onclick="changeMainImage(this.src)">
+                        <img src="https://via.placeholder.com/500x650?text=Book+Pages" alt="Book thumbnail 4" class="book-thumbnail" onclick="changeMainImage(this.src)">
+                    </div>
+                </div>
+
+                <!-- Book Info -->
+                <div class="book-info">
+                    <h1 class="book-title">Introduction to Computer Science</h1>
+                    <p class="book-author">by John Smith</p>
+
+                    <!-- Book Rating -->
+                    <div data-average-rating data-type="book" data-id="book123" class="book-rating"></div>
+
+                    <!-- Book Meta -->
+                    <div class="book-meta">
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Edition</span>
+                            <span class="book-meta-value">3rd Edition</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Publisher</span>
+                            <span class="book-meta-value">Academic Press</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Course Code</span>
+                            <span class="book-meta-value">CS101</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Department</span>
+                            <span class="book-meta-value">Computer Science</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Condition</span>
+                            <span class="book-meta-value">Good</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <span class="book-meta-label">Format</span>
+                            <span class="book-meta-value">Hardcover</span>
+                        </div>
+                    </div>
+
+                    <!-- Book Price -->
+                    <div class="book-price-container">
+                        <span class="book-price">$45.99</span>
+                        <span class="book-original-price">$65.00</span>
+                    </div>
+
+                    <!-- Listing Type -->
+                    <div class="book-listing-type sale">For Sale</div>
+
+                    <!-- Book Description -->
+                    <div class="book-description">
+                        <p>This comprehensive introduction to computer science is perfect for beginners. The book covers fundamental concepts including algorithms, data structures, programming paradigms, and more. It's in good condition with minimal highlighting and no missing pages.</p>
+                    </div>
+
+                    <!-- Book Actions -->
+                    <div class="book-actions">
+                        <button class="book-action-btn btn-buy" id="buy-now-btn">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                        <button class="book-action-btn btn-message" id="message-seller-btn">
+                            <i class="fas fa-comment"></i> Message Seller
+                        </button>
+                    </div>
+
+                    <!-- Seller Info -->
+                    <div class="seller-info">
+                        <img src="https://via.placeholder.com/150?text=Avatar" alt="Seller Avatar" class="seller-avatar">
+                        <div class="seller-details">
+                            <h3 class="seller-name">Alice Johnson</h3>
+                            <div class="seller-rating" data-average-rating data-type="seller" data-id="user456"></div>
+                            <p class="seller-department">Computer Science Department</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Container (initially hidden) -->
+                    <div id="payment-container" class="payment-container">
+                        <!-- Payment content will be inserted here by JavaScript -->
+                    </div>
+
+                    <!-- Message Container (initially hidden) -->
+                    <div id="message-container" class="message-container">
+                        <div class="message-header">
+                            <h3 class="message-title">Message to Alice Johnson</h3>
+                            <span class="message-close" id="close-message-btn">&times;</span>
+                        </div>
+                        <form class="message-form" id="message-form">
+                            <textarea class="message-textarea" placeholder="Write your message here..." required></textarea>
+                            <button type="submit" class="btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Tabs -->
+            <div class="book-tabs">
+                <div class="tabs-header">
+                    <div class="tab-btn active" data-tab="details">Details</div>
+                    <div class="tab-btn" data-tab="reviews">Reviews</div>
+                    <div class="tab-btn" data-tab="exchange">Exchange Points</div>
+                </div>
+
+                <!-- Details Tab -->
+                <div class="tab-content active" id="details-tab">
+                    <h2>Book Details</h2>
+                    <div class="details-grid">
+                        <div class="details-item">
+                            <h3>ISBN</h3>
+                            <p>978-1234567890</p>
+                        </div>
+                        <div class="details-item">
+                            <h3>Publication Year</h3>
+                            <p>2020</p>
+                        </div>
+                        <div class="details-item">
+                            <h3>Pages</h3>
+                            <p>450</p>
+                        </div>
+                        <div class="details-item">
+                            <h3>Language</h3>
+                            <p>English</p>
+                        </div>
+                        <div class="details-item">
+                            <h3>Listed On</h3>
+                            <p>April 15, 2023</p>
+                        </div>
+                        <div class="details-item">
+                            <h3>Views</h3>
+                            <p>124</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-content" id="reviews-tab">
+                    <h2>Book Reviews</h2>
+                    <div data-rating-type="book" data-id="book123" data-review="true"></div>
+                    <div data-reviews data-type="book" data-id="book123"></div>
+                </div>
+
+                <!-- Exchange Points Tab -->
+                <div class="tab-content" id="exchange-tab">
+                    <h2>Suggested Exchange Points</h2>
+                    <p>Meet the seller at one of these recommended exchange points on campus:</p>
+                    <div id="exchange-map-container" class="map-container" style="height: 400px;">
+                        <!-- Map will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Books -->
+            <div class="similar-books">
+                <h2>Similar Books</h2>
+                <div class="similar-books-grid">
+                    <!-- Book Card 1 -->
+                    <div class="book-card">
+                        <div class="book-card-img">
+                            <img src="https://via.placeholder.com/300x400?text=Python+Programming" alt="Python Programming">
+                        </div>
+                        <div class="book-card-content">
+                            <h3>Python Programming</h3>
+                            <p class="book-card-author">by Michael Johnson</p>
+                            <div class="book-card-price">$39.99</div>
+                            <a href="book-details.html?id=book456" class="btn-primary">View Details</a>
+                        </div>
+                    </div>
+
+                    <!-- Book Card 2 -->
+                    <div class="book-card">
+                        <div class="book-card-img">
+                            <img src="https://via.placeholder.com/300x400?text=Data+Structures" alt="Data Structures and Algorithms">
+                        </div>
+                        <div class="book-card-content">
+                            <h3>Data Structures and Algorithms</h3>
+                            <p class="book-card-author">by Sarah Williams</p>
+                            <div class="book-card-price">$42.50</div>
+                            <a href="book-details.html?id=book789" class="btn-primary">View Details</a>
+                        </div>
+                    </div>
+
+                    <!-- Book Card 3 -->
+                    <div class="book-card">
+                        <div class="book-card-img">
+                            <img src="https://via.placeholder.com/300x400?text=Web+Development" alt="Web Development Basics">
+                        </div>
+                        <div class="book-card-content">
+                            <h3>Web Development Basics</h3>
+                            <p class="book-card-author">by David Brown</p>
+                            <div class="book-card-price">$35.75</div>
+                            <a href="book-details.html?id=book101" class="btn-primary">View Details</a>
+                        </div>
+                    </div>
+
+                    <!-- Book Card 4 -->
+                    <div class="book-card">
+                        <div class="book-card-img">
+                            <img src="https://via.placeholder.com/300x400?text=Database+Systems" alt="Database Systems">
+                        </div>
+                        <div class="book-card-content">
+                            <h3>Database Systems</h3>
+                            <p class="book-card-author">by Emily Chen</p>
+                            <div class="book-card-price">$48.25</div>
+                            <a href="book-details.html?id=book202" class="btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell Books</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> VIT University, Vellore</p>
+                <p><i class="fas fa-phone"></i> +91 1234567890</p>
+                <p><i class="fas fa-envelope"></i> info@campusbookswap.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script src="js/features.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Change main image when thumbnail is clicked
+            window.changeMainImage = function(src) {
+                document.getElementById('main-image').src = src;
+                
+                // Update active thumbnail
+                document.querySelectorAll('.book-thumbnail').forEach(thumb => {
+                    if (thumb.src === src) {
+                        thumb.classList.add('active');
+                    } else {
+                        thumb.classList.remove('active');
+                    }
+                });
+            };
+            
+            // Tab switching functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Buy Now button functionality
+            const buyNowBtn = document.getElementById('buy-now-btn');
+            const paymentContainer = document.getElementById('payment-container');
+            
+            if (buyNowBtn && paymentContainer) {
+                buyNowBtn.addEventListener('click', function() {
+                    // Show payment container
+                    paymentContainer.style.display = 'block';
+                    // Scroll to payment container
+                    paymentContainer.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Message Seller button functionality
+            const messageSellerBtn = document.getElementById('message-seller-btn');
+            const messageContainer = document.getElementById('message-container');
+            const closeMessageBtn = document.getElementById('close-message-btn');
+            
+            if (messageSellerBtn && messageContainer) {
+                messageSellerBtn.addEventListener('click', function() {
+                    // Show message container
+                    messageContainer.style.display = 'block';
+                    // Scroll to message container
+                    messageContainer.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            if (closeMessageBtn && messageContainer) {
+                closeMessageBtn.addEventListener('click', function() {
+                    // Hide message container
+                    messageContainer.style.display = 'none';
+                });
+            }
+            
+            // Message form submission
+            const messageForm = document.getElementById('message-form');
+            
+            if (messageForm) {
+                messageForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get message text
+                    const messageText = this.querySelector('textarea').value;
+                    
+                    // Check if user is logged in
+                    const currentUser = localStorage.getItem('currentUser');
+                    
+                    if (!currentUser) {
+                        // Redirect to login page if not logged in
+                        alert('Please log in to send messages.');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    
+                    // Simulate sending message
+                    console.log('Sending message:', messageText);
+                    
+                    // Show success message
+                    alert('Message sent successfully!');
+                    
+                    // Clear form and hide container
+                    this.reset();
+                    messageContainer.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

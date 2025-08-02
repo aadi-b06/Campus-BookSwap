@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus BookSwap - Test Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Campus BookSwap - Test Page</h1>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Books</a>
+                <a href="sell.html">Sell/Swap</a>
+                <a href="dashboard.html">My Dashboard</a>
+                <a href="login.html" class="login-btn">Login/Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="test-section">
+            <h2>Test Functions</h2>
+            <div class="test-buttons">
+                <button id="login-btn" class="btn primary-btn">Create Test User</button>
+                <button id="create-listing-btn" class="btn secondary-btn">Create Test Listing</button>
+
+                <button id="clear-storage-btn" class="btn danger-btn">Clear LocalStorage</button>
+            </div>
+            
+            <div class="test-status">
+                <h3>Current Status:</h3>
+                <div id="user-status">Checking login status...</div>
+                <div id="listings-status">Checking listings...</div>
+            </div>
+            
+            <div class="test-navigation">
+                <h3>Navigation:</h3>
+                <a href="index.html" class="btn">Go to Home</a>
+                <a href="browse.html" class="btn">Go to Browse</a>
+                <a href="dashboard.html" class="btn">Go to Dashboard</a>
+                <a href="sell.html" class="btn">Go to Sell/Swap</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Campus BookSwap</h3>
+                <p>A platform for university students to buy, sell, and swap textbooks with peers on campus.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell/Swap</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@campusbookswap.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load test scripts -->
+    <script src="js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update status displays
+            updateStatus();
+            
+            // Set up button event listeners
+            document.getElementById('login-btn').addEventListener('click', () => {
+                // Load and execute test-login.js
+                const script = document.createElement('script');
+                script.src = 'js/test-login.js';
+                document.body.appendChild(script);
+                
+                // Update status after a short delay
+                setTimeout(updateStatus, 500);
+            });
+            
+            document.getElementById('create-listing-btn').addEventListener('click', () => {
+                // Load and execute test-listing.js
+                const script = document.createElement('script');
+                script.src = 'js/test-listing.js';
+                document.body.appendChild(script);
+                
+                // Update status after a short delay
+                setTimeout(updateStatus, 500);
+            });
+            
+
+            
+            document.getElementById('clear-storage-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all localStorage data? This will remove all users and listings.')) {
+                    localStorage.clear();
+                    alert('LocalStorage cleared successfully.');
+                    updateStatus();
+                }
+            });
+            
+            function updateStatus() {
+                // Update user status
+                const userStatus = document.getElementById('user-status');
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                
+                if (currentUser) {
+                    userStatus.innerHTML = `
+                        <p><strong>Logged in as:</strong> ${currentUser.name} (${currentUser.email})</p>
+                        <p><strong>User ID:</strong> ${currentUser.id}</p>
+                    `;
+                    userStatus.classList.add('logged-in');
+                } else {
+                    userStatus.innerHTML = '<p>No user logged in</p>';
+                    userStatus.classList.remove('logged-in');
+                }
+                
+                // Update listings status
+                const listingsStatus = document.getElementById('listings-status');
+                const allListings = JSON.parse(localStorage.getItem('bookListings')) || [];
+                
+                if (allListings.length > 0) {
+                    let userListings = [];
+                    if (currentUser) {
+                        const userId = currentUser.id || currentUser.email;
+                        userListings = allListings.filter(listing => listing.userId === userId);
+                    }
+                    
+                    listingsStatus.innerHTML = `
+                        <p><strong>Total Listings:</strong> ${allListings.length}</p>
+                        ${currentUser ? `<p><strong>Your Listings:</strong> ${userListings.length}</p>` : ''}
+                    `;
+                } else {
+                    listingsStatus.innerHTML = '<p>No book listings found</p>';
+                }
+            }
+        });
+    </script>
+    
+    <style>
+        .test-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-status, .test-navigation {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .test-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .danger-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .danger-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .logged-in {
+            color: #27ae60;
+        }
+    </style>
+</body>
+</html>

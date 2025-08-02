@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Campus BookSwap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Auth Form Styles */
+        .auth-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .auth-form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-form:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .auth-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #777;
+            font-size: 12px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+        }
+        
+        .checkbox-label input {
+            margin-right: 10px;
+            width: auto;
+        }
+        
+        .auth-form button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-form button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-form button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        
+        .auth-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .form-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+            color: #45a049;
+        }
+        
+        .error-message, .success-message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Campus BookSwap</h1>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Books</a>
+                <a href="sell.html">Sell/Swap</a>
+                <a href="about.html">About</a>
+                <a href="login.html" class="active login-btn">Login/Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome-message" style="text-align: center; margin: 30px auto; max-width: 800px; padding: 0 20px;">
+            <h1 style="color: #4CAF50; margin-bottom: 15px;">Welcome to Campus BookSwap</h1>
+            <p style="color: #555; font-size: 18px; line-height: 1.6;">Join our community of university students to buy, sell, and swap textbooks with peers on campus. Save money and help others do the same!</p>
+        </div>
+        <section class="auth-container">
+            <!-- Login Form -->
+            <div class="auth-form">
+                <h2>Login</h2>
+                <form id="login-form" class="needs-validation">
+                    <div id="login-error" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; padding: 10px; background-color: #fdecea; border-radius: 4px;"></div>
+                    <div id="login-success" class="success-message" style="display: none; color: #2ecc71; margin-bottom: 15px; padding: 10px; background-color: #eafaf1; border-radius: 4px;"></div>
+                    
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="university@edu" required>
+                        <small class="form-text">Enter your university email address</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember-me"> Remember me
+                        </label>
+                    </div>
+                    <button type="submit" id="login-button">Login</button>
+                    <div class="form-footer">
+                        <a href="#">Forgot password?</a>
+                        <p style="margin-top: 10px;">Don't have an account? <a href="#" onclick="document.getElementById('full-name').focus(); return false;">Register now</a></p>
+                    </div>
+                    <div class="social-login">
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        <p style="text-align: center; margin: 5px 0 15px; color: #777; font-size: 14px;">Continue with social login</p>
+                        <div id="google-signin-container" class="google-signin-container"></div>
+                        <script>
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "480107081732-jdu5n7iol8vvehp8g95o0a5555thvk9f.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-signin-container"),
+      { theme: "outline", size: "large" } 
+    );
+  };
+
+  function handleCredentialResponse(response) {
+    // Send ID token to backend for verification
+    console.log("Encoded JWT ID token: " + response.credential);
+  }
+</script>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Registration Form -->
+            <div class="auth-form">
+                <h2>Register</h2>
+                <form id="registration-form" class="needs-validation">
+                    <div id="register-error" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; padding: 10px; background-color: #fdecea; border-radius: 4px;"></div>
+                    <div id="register-success" class="success-message" style="display: none; color: #2ecc71; margin-bottom: 15px; padding: 10px; background-color: #eafaf1; border-radius: 4px;"></div>
+                    
+                    <div class="form-group">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">University Email</label>
+                        <input type="email" id="email" placeholder="university@edu" required>
+                        <small>Please use your university email address</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="university">University</label>
+                        <input type="text" id="university" placeholder="Enter your university name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" id="department" placeholder="e.g., Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Create a password" required>
+                        <div class="password-strength"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" required>
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" id="register-button">Create Account</button>
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="#" onclick="document.getElementById('login-email').focus(); return false;">Login instead</a></p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Campus BookSwap</h3>
+                <p>A platform for university students to buy, sell, and swap textbooks with peers on campus.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell/Swap</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@campusbookswap.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="js/auth.js"></script>
+    <!-- Test script for auto-login functionality -->
+    <script src="js/test-autologin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                // Redirect to dashboard if already logged in
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            // Check for lastLoggedInUser to display a welcome back message
+            const rememberMe = localStorage.getItem('rememberMe');
+            if (rememberMe === 'true') {
+                try {
+                    const lastLoggedInUser = JSON.parse(localStorage.getItem('lastLoggedInUser'));
+                    if (lastLoggedInUser && lastLoggedInUser.email) {
+                        // Add a welcome back banner at the top of the page
+                        const welcomeBack = document.createElement('div');
+                        welcomeBack.className = 'welcome-back-banner';
+                        welcomeBack.innerHTML = `
+                            <div style="background-color: #e8f5e9; color: #2e7d32; padding: 10px 20px; text-align: center; margin-bottom: 20px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <p style="margin: 0; font-size: 16px;">Welcome back! We've detected your previous login. Your email has been pre-filled for convenience.</p>
+                            </div>
+                        `;
+                        
+                        // Insert after the header
+                        const header = document.querySelector('header');
+                        if (header && header.nextSibling) {
+                            header.parentNode.insertBefore(welcomeBack, header.nextSibling);
+                            
+                            // Auto-hide the banner after 5 seconds
+                            setTimeout(() => {
+                                welcomeBack.style.opacity = '0';
+                                welcomeBack.style.transition = 'opacity 0.5s ease';
+                                setTimeout(() => {
+                                    welcomeBack.remove();
+                                }, 500);
+                            }, 5000);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing lastLoggedInUser:', e);
+                }
+            }
+        });
+    </script>
+    <style>
+        /* Google Sign-In Button Styles */
+        .google-signin-container {
+            width: 100%;
+            height: 40px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* Social Login Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .social-login {
+            margin-top: 25px;
+        }
+    </style>
+</body>
+</html>

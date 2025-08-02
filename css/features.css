@@ -1,0 +1,864 @@
+/**
+ * CSS for new features in Campus BookSwap
+ * Includes styles for payment system, ratings, campus map, and notifications
+ */
+
+/* ===== Common Styles ===== */
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.section-description {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* ===== Payment Gateway Styles ===== */
+.payment-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.payment-method-selection {
+    margin-bottom: 2rem;
+}
+
+.payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.payment-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: calc(33.333% - 1rem);
+    min-width: 120px;
+}
+
+.payment-method:hover {
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.payment-method.active {
+    border-color: #3498db;
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.payment-method i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #3498db;
+}
+
+.payment-summary {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.summary-item.total {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.payment-form-container {
+    margin-top: 2rem;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.payment-form.hidden {
+    display: none;
+}
+
+.card-element {
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fff;
+    height: 40px;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+
+#paypal-button-container {
+    margin-top: 1rem;
+}
+
+/* ===== Rating System Styles ===== */
+.rating-system {
+    margin: 1.5rem 0;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.rating-star {
+    font-size: 1.5rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-star:hover,
+.rating-star.active {
+    color: #f1c40f;
+}
+
+.rating-label {
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: #666;
+}
+
+.review-form {
+    margin-top: 1rem;
+}
+
+.review-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-message {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    min-height: 20px;
+}
+
+.form-message.error {
+    color: #e74c3c;
+}
+
+.form-message.success {
+    color: #2ecc71;
+}
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.stars-container {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.stars-container .fa-star {
+    font-size: 1.25rem;
+}
+
+.stars-container .fa-star.full {
+    color: #f1c40f;
+}
+
+.stars-container .fa-star.half {
+    position: relative;
+    color: #ddd;
+}
+
+.stars-container .fa-star.half::before {
+    content: '\f089'; /* fa-star-half */
+    position: absolute;
+    color: #f1c40f;
+}
+
+.stars-container .fa-star.empty {
+    color: #ddd;
+}
+
+.rating-info {
+    margin-left: 0.75rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.rating-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.rating-count {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.reviews-container {
+    margin-top: 2rem;
+}
+
+.no-reviews {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 1rem;
+}
+
+.review-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.review-date {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.review-rating {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.review-content p {
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.login-prompt-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.login-prompt-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.login-prompt-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* ===== Campus Map Styles ===== */
+.campus-map-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.map-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.map-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.map-content {
+    display: flex;
+    gap: 1.5rem;
+    height: 600px;
+}
+
+.map-sidebar {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-filters {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.filter-option input {
+    margin: 0;
+}
+
+#map-canvas {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.directions-panel {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.map-info-window {
+    padding: 0.5rem;
+    max-width: 300px;
+}
+
+.map-info-window h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.info-details {
+    margin: 1rem 0;
+    font-size: 0.875rem;
+}
+
+.info-details p {
+    margin: 0.25rem 0;
+}
+
+.info-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-directions,
+.btn-view-profile,
+.btn-find-nearest {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-directions:hover,
+.btn-view-profile:hover,
+.btn-find-nearest:hover {
+    background-color: #2980b9;
+}
+
+.filter-btn {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+    background-color: #3498db;
+    color: white;
+}
+
+/* ===== Notification System Styles ===== */
+.notification-dropdown {
+    position: relative;
+}
+
+.notification-icon {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.notification-menu {
+    width: 320px;
+    padding: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.notification-header h6 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.mark-all-read:hover {
+    text-decoration: underline;
+}
+
+.notification-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.empty-notification {
+    padding: 1.5rem;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.notification-item {
+    display: flex;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+    background-color: #f9f9f9;
+}
+
+.notification-item.unread {
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.notification-icon-small {
+    margin-right: 0.75rem;
+    color: #3498db;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-text {
+    font-size: 0.875rem;
+    color: #333;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.notification-actions {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0.5rem;
+}
+
+.mark-read {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.notification-item:hover .mark-read {
+    opacity: 1;
+}
+
+.notification-footer {
+    padding: 0.75rem;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+.notification-footer a {
+    color: #3498db;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.toast-notification {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.toast-notification.toast-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-notification.toast-hiding {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.toast-icon {
+    margin-right: 0.75rem;
+    color: #3498db;
+    font-size: 1.25rem;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #333;
+}
+
+.toast-message {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+}
+
+.toast-close:hover {
+    color: #333;
+}
+
+/* Notifications Page */
+.notifications-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.notifications-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.notifications-list-full {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.notification-item-full {
+    display: flex;
+    padding: 1.25rem;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-item-full:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item-full.unread {
+    border-left: 4px solid #3498db;
+}
+
+.notification-icon-full {
+    margin-right: 1rem;
+    color: #3498db;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.notification-content-full {
+    flex: 1;
+}
+
+.notification-text-full {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.notification-time-full {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.notification-actions-full {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.mark-read-btn {
+    background: none;
+    border: 1px solid #3498db;
+    color: #3498db;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.mark-read-btn:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+.empty-notifications {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    font-style: italic;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* ===== Responsive Styles ===== */
+@media (max-width: 768px) {
+    .payment-method {
+        width: calc(50% - 0.5rem);
+    }
+    
+    .map-content {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .map-sidebar {
+        width: 100%;
+        order: 2;
+    }
+    
+    #map-canvas {
+        height: 400px;
+        order: 1;
+    }
+    
+    .notification-menu {
+        width: 280px;
+    }
+    
+    .notification-item-full {
+        flex-direction: column;
+    }
+    
+    .notification-icon-full {
+        margin-bottom: 0.75rem;
+    }
+    
+    .notification-actions-full {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-method {
+        width: 100%;
+    }
+    
+    .payment-container {
+        padding: 1.5rem;
+    }
+    
+    .notification-badge {
+        width: 16px;
+        height: 16px;
+        font-size: 0.7rem;
+    }
+    
+    .toast-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+}

@@ -1,0 +1,261 @@
+/* 
+ * New Color Scheme
+ * Primary: Soft Teal (#36CFC9) - Navigation bars, headers, and calls-to-action
+ * Background: Light Gray (#F3F4F6) - Page backgrounds
+ * Accent: Coral (#FF7675) - Buttons, highlights, and interactive elements
+ * Contrast: Charcoal Black (#232323) - Text and important content
+ * Highlight: Lemon (#FFE066) - Highlights and attention-grabbing elements
+ */
+
+/* Global color overrides */
+body {
+    background-color: #F3F4F6;
+    color: #232323;
+}
+
+a {
+    color: #36CFC9;
+}
+
+a:hover {
+    color: #FF7675;
+}
+
+/* Button styles */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.primary-btn, 
+.btn-primary,
+.view-btn {
+    background-color: #36CFC9;
+    color: white;
+}
+
+.primary-btn:hover, 
+.btn-primary:hover,
+.view-btn:hover {
+    background-color: #2fb8b3;
+}
+
+.secondary-btn,
+.btn-secondary {
+    background-color: #F3F4F6;
+    color: #232323;
+    border: 1px solid #ddd;
+}
+
+.secondary-btn:hover,
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+/* Header styles */
+header {
+    background-color: white;
+}
+
+.logo h1 {
+    color: #36CFC9;
+}
+
+nav a {
+    color: #232323;
+}
+
+nav a:hover, nav a.active {
+    background-color: #36CFC9;
+    color: white;
+}
+
+.login-btn {
+    background-color: #FF7675;
+    color: white !important;
+}
+
+.login-btn:hover {
+    background-color: #ff6261;
+}
+
+/* Hero section */
+.hero {
+    background: linear-gradient(rgba(35, 35, 35, 0.7), rgba(35, 35, 35, 0.7)), url('images/campus-bg.jpg');
+}
+
+/* How it works section */
+.step-icon {
+    background-color: #36CFC9;
+}
+
+.step h3 {
+    color: #232323;
+}
+
+/* Featured books section */
+.featured-books {
+    background-color: #F3F4F6;
+}
+
+.featured-books h2 {
+    color: #232323;
+}
+
+.book-info h3 {
+    color: #232323;
+}
+
+.price {
+    color: #FF7675;
+}
+
+.condition {
+    background-color: #FFE066;
+    color: #232323;
+}
+
+/* Testimonials section */
+.testimonials h2 {
+    color: #232323;
+}
+
+.quote {
+    color: #36CFC9;
+}
+
+/* Call to action */
+.cta {
+    background-color: #36CFC9;
+}
+
+.cta .primary-btn {
+    background-color: white;
+    color: #36CFC9;
+}
+
+.cta .primary-btn:hover {
+    background-color: #F3F4F6;
+}
+
+/* Footer */
+footer {
+    background-color: #232323;
+}
+
+.footer-section ul li a:hover {
+    color: #36CFC9;
+}
+
+.social-icons a:hover {
+    color: #36CFC9;
+}
+
+/* Dashboard specific styles */
+.dashboard-header h1 {
+    color: #232323;
+}
+
+.user-avatar {
+    background-color: #36CFC9;
+}
+
+.user-info h2 {
+    color: #232323;
+}
+
+.tab-button {
+    color: #6B7280;
+}
+
+.tab-button:hover {
+    color: #36CFC9;
+}
+
+.tab-button.active {
+    color: #36CFC9;
+    border-bottom-color: #36CFC9;
+}
+
+/* Analytics styles */
+.analytics-header h2 {
+    color: #232323;
+}
+
+.analytics-card-icon {
+    background-color: #e3f2fd;
+}
+
+.analytics-card-icon i {
+    color: #36CFC9;
+}
+
+.analytics-number {
+    color: #232323;
+}
+
+.analytics-trend.positive {
+    color: #36CFC9;
+}
+
+.analytics-trend.negative {
+    color: #FF7675;
+}
+
+.view-listings-btn {
+    background-color: #36CFC9;
+}
+
+.view-listings-btn:hover {
+    background-color: #2fb8b3;
+}
+
+/* Status colors */
+.status-completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background: #FFE066;
+    color: #856404;
+}
+
+.status-in-progress {
+    background: #cce7ff;
+    color: #004085;
+}
+
+.status-cancelled {
+    background: #FF7675;
+    color: #721c24;
+}
+
+/* Campus map styles */
+.status-high {
+    background-color: #36CFC9;
+}
+
+.status-medium {
+    background-color: #FFE066;
+}
+
+.status-low {
+    background-color: #FF7675;
+}
+
+/* Messaging styles */
+.unread-indicator {
+    background-color: #36CFC9;
+}
+
+/* Accessibility improvements */
+/* Ensuring text has sufficient contrast against backgrounds */
+p, h1, h2, h3, h4, h5, h6 {
+    color: #232323;
+}
+
+/* Focus states for better keyboard navigation */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid #36CFC9;
+    outline-offset: 2px;
+}

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Campus BookSwap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/features.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Additional styles specific to the notifications page */
+        .notifications-container {
+            margin: 2rem 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .notification-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .notification-filter {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .notification-filter.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .notification-filter:hover:not(.active) {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .notification-list-full {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .notification-item {
+            display: flex;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #eaeaea;
+        }
+
+        .notification-item.unread {
+            background-color: #ebf7fd;
+            border-left: 4px solid #3498db;
+        }
+
+        .notification-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .notification-icon.message {
+            background-color: #2196F3;
+        }
+
+        .notification-icon.transaction {
+            background-color: #FF9800;
+        }
+
+        .notification-icon.system {
+            background-color: #9C27B0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .notification-time {
+            color: #757575;
+            font-size: 0.9rem;
+        }
+
+        .notification-message {
+            margin: 0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .notification-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .notification-action {
+            font-size: 0.9rem;
+            color: #3498db;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+        }
+
+        .notification-action:hover {
+            background-color: #ebf7fd;
+            border-color: #3498db;
+        }
+
+        .notification-action.delete {
+            color: #F44336;
+        }
+
+        .notification-action.delete:hover {
+            background-color: #ffebee;
+            border-color: #F44336;
+        }
+
+        .empty-notifications {
+            text-align: center;
+            padding: 3rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+        }
+
+        .empty-notifications i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .empty-notifications h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .empty-notifications p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Additional styles for notification items */
+        .notification-item-full {
+            display: flex;
+            padding: 1.25rem;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #eaeaea;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .notification-item-full.unread {
+            background-color: #ebf7fd;
+            border-left: 4px solid #3498db;
+        }
+
+        .notification-item-full:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .notification-icon-full {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 1.25rem;
+        }
+
+        .notification-content-full {
+            flex: 1;
+        }
+
+        .notification-text-full {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .notification-time-full {
+            font-size: 0.85rem;
+            color: #757575;
+        }
+
+        .notification-actions-full {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+
+        .mark-read-btn {
+            background-color: #ffffff;
+            border: 1px solid #3498db;
+            color: #3498db;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mark-read-btn:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .notification-filters {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                justify-content: flex-start;
+            }
+
+            .notification-filter {
+                white-space: nowrap;
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .notification-item-full {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .notification-icon-full {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+
+            .notification-actions-full {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .notification-filter {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Campus BookSwap</h1>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Books</a>
+                <a href="sell.html">Sell/Swap</a>
+                <a href="dashboard.html">My Dashboard</a>
+                <a href="about.html">About</a>
+                <div class="notification-icon-container">
+                    <a href="notifications.html" class="notification-icon active">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">0</span>
+                    </a>
+                </div>
+                <a href="#" class="login-btn">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Your Notifications</h1>
+                <p class="section-description">
+                    Stay updated with your book listings, messages, and transaction updates.
+                </p>
+            </div>
+
+            <!-- Notification Filters -->
+            <div class="notification-filters">
+                <button class="notification-filter active" data-filter="all">All Notifications</button>
+                <button class="notification-filter" data-filter="unread">Unread</button>
+                <button class="notification-filter" data-filter="listing">Book Listings</button>
+                <button class="notification-filter" data-filter="message">Messages</button>
+                <button class="notification-filter" data-filter="transaction">Transactions</button>
+                <button class="notification-filter" data-filter="system">System</button>
+            </div>
+
+            <!-- Notifications Container -->
+            <div id="notifications-container" class="notifications-container">
+                <!-- Notifications will be inserted here by JavaScript -->
+                
+                <!-- Empty State (will be shown if no notifications) -->
+                <div class="empty-notifications" style="display: none;">
+                    <i class="far fa-bell-slash"></i>
+                    <h3>No notifications yet</h3>
+                    <p>When you receive notifications, they will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell Books</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> VIT University, Vellore</p>
+                <p><i class="fas fa-phone"></i> +91 1234567890</p>
+                <p><i class="fas fa-envelope"></i> info@campusbookswap.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script src="js/features.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners to notification filters
+            const filters = document.querySelectorAll('.notification-filter');
+            
+            filters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // Remove active class from all filters
+                    filters.forEach(f => f.classList.remove('active'));
+                    
+                    // Add active class to clicked filter
+                    this.classList.add('active');
+                    
+                    // Get filter type
+                    const filterType = this.dataset.filter;
+                    
+                    // Apply filter if notification system is initialized
+                    if (window.notificationSystem) {
+                        window.notificationSystem.filterNotifications(filterType);
+                    }
+                });
+            });
+
+            // Initialize notification system
+            window.notificationSystem = new NotificationSystem();
+            
+            // Generate notifications page
+            if (window.notificationSystem) {
+                window.notificationSystem.generateNotificationsPage('notifications-container');
+            }
+        });
+    </script>
+</body>
+</html>

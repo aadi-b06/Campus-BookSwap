@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Campus BookSwap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/color-scheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* About page specific styles */
+        .about-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .about-header h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+        }
+        
+        .about-header p {
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .mission-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+        
+        .mission-content h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .mission-content p {
+            color: #34495e;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .mission-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .values-section {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+        
+        .values-section h2 {
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-size: 2rem;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .value-card {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+        
+        .value-icon i {
+            font-size: 2rem;
+            color: #3498db;
+        }
+        
+        .value-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .value-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .team-section {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+        
+        .team-section h2 {
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-size: 2rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .member-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover .member-image img {
+            transform: scale(1.05);
+        }
+        
+        .member-info {
+            padding: 20px;
+        }
+        
+        .member-name {
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+        }
+        
+        .member-role {
+            color: #3498db;
+            margin: 0 0 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .member-bio {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .member-social a {
+            color: #7f8c8d;
+            transition: color 0.3s ease;
+        }
+        
+        .member-social a:hover {
+            color: #3498db;
+        }
+        
+        .stats-section {
+            background-color: #3498db;
+            padding: 80px 0;
+            margin-bottom: 80px;
+            color: white;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .stat-item p {
+            font-size: 1.1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .faq-section {
+            margin-bottom: 80px;
+        }
+        
+        .faq-section h2 {
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .faq-question i {
+            color: #3498db;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: 0 20px 20px;
+            max-height: 1000px;
+        }
+        
+        .faq-answer p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .cta-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .cta-section p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .mission-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .mission-image {
+                order: -1;
+            }
+            
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Campus BookSwap</h1>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Books</a>
+                <a href="sell.html">Sell/Swap</a>
+                <a href="dashboard.html">My Dashboard</a>
+                <a href="about.html" class="active">About</a>
+                <a href="login.html" class="login-btn">Login/Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="about-container">
+            <div class="about-header">
+                <h1>About Campus BookSwap</h1>
+                <p>We're on a mission to make textbooks more affordable and accessible for university students while promoting sustainability through reuse.</p>
+            </div>
+            
+            <section class="mission-section">
+                <div class="mission-content">
+                    <h2>Our Mission</h2>
+                    <p>Campus BookSwap was founded with a simple yet powerful idea: to create a platform where university students can buy, sell, and swap textbooks directly with their peers, cutting out the middleman and saving money.</p>
+                    <p>We believe that education should be accessible to all, and the high cost of textbooks should not be a barrier to learning. By facilitating peer-to-peer transactions, we're helping students reduce their educational expenses while promoting sustainability through the reuse of books.</p>
+                    <p>Our platform is designed by students, for students, with a focus on creating a safe, user-friendly environment where campus communities can connect and help each other succeed academically.</p>
+                </div>
+                <div class="mission-image">
+                    <img src="https://via.placeholder.com/600x400?text=Our+Mission" alt="Students exchanging books on campus">
+                </div>
+            </section>
+            
+            <section class="values-section">
+                <h2>Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h3>Affordability</h3>
+                        <p>We're committed to helping students save money on their educational materials by facilitating direct peer-to-peer transactions without markup or commission fees.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Sustainability</h3>
+                        <p>By encouraging the reuse of textbooks, we're reducing waste and promoting environmentally friendly practices within university communities.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community</h3>
+                        <p>We foster connections between students on campus, creating opportunities for collaboration and support beyond just textbook exchanges.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="stats-section">
+                <div class="stats-container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>5,000+</h3>
+                            <p>Active Users</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10,000+</h3>
+                            <p>Books Exchanged</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>$250,000+</h3>
+                            <p>Student Savings</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>50+</h3>
+                            <p>University Campuses</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="team-section">
+                <h2>Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://via.placeholder.com/300x300?text=Team+Member" alt="Team Member">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Aadi Bhangdiya</h3>
+                            <p class="member-role">Founder & CEO</p>
+                            <p class="member-bio">Former student who experienced firsthand the financial burden of textbooks and decided to create a solution.</p>
+                            <div class="member-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://via.placeholder.com/300x300?text=Team+Member" alt="Team Member">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Michael Chen</h3>
+                            <p class="member-role">CTO</p>
+                            <p class="member-bio">Computer Science graduate passionate about using technology to solve real-world problems in education.</p>
+                            <div class="member-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://via.placeholder.com/300x300?text=Team+Member" alt="Team Member">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Emily Rodriguez</h3>
+                            <p class="member-role">Head of Marketing</p>
+                            <p class="member-bio">Marketing expert with experience in campus outreach and building student communities.</p>
+                            <div class="member-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://via.placeholder.com/300x300?text=Team+Member" alt="Team Member">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">David Okafor</h3>
+                            <p class="member-role">User Experience Designer</p>
+                            <p class="member-bio">Design specialist focused on creating intuitive and accessible interfaces for all users.</p>
+                            <div class="member-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-dribbble"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How does Campus BookSwap work?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Campus BookSwap is a platform that connects university students who want to buy, sell, or swap textbooks. Sellers list their books with details and photos, and buyers can search for the books they need. Once a match is found, the platform facilitates communication between the two parties to arrange the exchange.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is there a fee to use Campus BookSwap?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No, Campus BookSwap is completely free to use for all university students. We don't charge any listing fees, transaction fees, or commissions. Our goal is to help students save money, not add to their expenses.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How do I know if a book is in good condition?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sellers are required to provide accurate information about the condition of their books, including any highlighting, notes, or damage. They also upload photos of the book. We encourage buyers to ask questions and inspect the book before completing the transaction. If a book's condition is misrepresented, you can report it to our support team.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How are payments handled?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Campus BookSwap does not handle payments directly. We recommend cash transactions when meeting in person, or using secure payment methods like Venmo, PayPal, or Zelle when necessary. Always exchange the book and payment simultaneously to ensure a fair transaction.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is it safe to meet with other students?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We recommend meeting in public places on campus during daylight hours, such as the library, student union, or campus coffee shops. You can also bring a friend if you're concerned. Most universities have designated safe exchange zones that are monitored by campus security.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="cta-section">
+                <h2>Ready to Start Saving?</h2>
+                <p>Join thousands of university students who are already saving money and reducing waste by buying, selling, and swapping textbooks on Campus BookSwap.</p>
+                <div class="cta-buttons">
+                    <a href="browse.html" class="btn primary-btn">Browse Books</a>
+                    <a href="sell.html" class="btn secondary-btn">List Your Books</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Campus BookSwap</h3>
+                <p>A platform for university students to buy, sell, and swap textbooks with peers on campus.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse Books</a></li>
+                    <li><a href="sell.html">Sell/Swap</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@campusbookswap.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Campus BookSwap. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                // Toggle active class on question
+                this.classList.toggle('active');
+                
+                // Toggle active class on answer
+                const answer = this.nextElementSibling;
+                answer.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
